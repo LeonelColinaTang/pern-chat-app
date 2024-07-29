@@ -25,9 +25,8 @@ const SignUp = () =>{
     setInputs({...inputs, gender})
   }
 
-  const handleSubmit = async (e) =>{
+  const handleSubmit = async (e: any) =>{
     e.preventDefault();
-    console.log("INPUTS", inputs);
 
     await signup(inputs)
   }

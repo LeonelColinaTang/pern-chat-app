@@ -11,7 +11,7 @@ body{
 }
 
 
-/* Darm Mode Looking Scrollbar */
+/* Dark Mode Looking Scrollbar */
 ::-webkit-scrollbar{
   width: 8px;
 }

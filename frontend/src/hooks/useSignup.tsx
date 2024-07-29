@@ -1,16 +1,16 @@
 import { useState } from "react";
 import toast, {Toaster} from "react-hot-toast";
-import { Routes } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+// import { Routes } from "react-router-dom";
 
 const useSignUp = () =>{
 
     const [loading, setLoading] = useState(false);
+    const {setAuthUser} = useAuthContext();
 
     const signup = async({fullName, username, password, confirmPassword, gender}) =>{
         const success = handleInputErrors(fullName, username, password, confirmPassword, gender);
-
         if(!success) return;
-
         setLoading(true);
 
         try{
@@ -22,10 +22,19 @@ const useSignUp = () =>{
             });
 
             const data = await res.json();
-            console.log(data);
+
+            if(data.error){
+                throw new Error(data.error)
+            }
+
+            // localstorage
+            localStorage.setItem("chat-user", JSON.stringify(data));
+            
+            // context
+            setAuthUser(data);
+
 
         }catch(error:any){
-            console.log("CATCH ERROR");
             toast.error(error.message)
         }finally{
             setLoading(false)
@@ -37,15 +46,9 @@ const useSignUp = () =>{
 
 
 
-function handleInputErrors(fullName, username, password, confirmPassword, gender){
+function handleInputErrors(fullName: string, username: string, password: string, confirmPassword: string, gender: string){
 
     if(!fullName || !username || !password || !confirmPassword || !gender){
-        console.log("GETTING HIT ON THE FRONTEND");
-        console.log(fullName)
-        console.log(username)
-        console.log(password)
-        console.log(confirmPassword)
-        console.log(gender)
         toast.error("Please make sure to fill all the fields");
         return false;
     }
