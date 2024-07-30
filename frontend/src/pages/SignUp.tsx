@@ -19,7 +19,7 @@ const SignUp = () =>{
     gender: ''
   });
 
-  const { loading, signup } = useSignUp();
+  const { signup } = useSignUp();
 
   const handleGenderCheckbox = (gender:string) =>{
     setInputs({...inputs, gender})

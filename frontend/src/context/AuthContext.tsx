@@ -1,20 +1,63 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState, ReactNode } from "react";
 
+type AuthUserType = {
+    id: string;
+    fullName: string;
+    email: string;
+    profilePic: string;
+    gender: string;
+}
 
-
-export const AuthContext = createContext('');
+const AuthContext = createContext<{
+    authUser: AuthUserType | null;
+    setAuthUser: Dispatch<SetStateAction<AuthUserType | null>>;
+    isLoading: boolean;
+}>({
+    authUser: null,
+    setAuthUser: () =>{},
+    isLoading: true
+});
 
 // We create the hook to use Context right here so we don't have to import AuthContext AND useContext in other files
 export const useAuthContext = () =>{
     return useContext(AuthContext);
 }
 
-export const AuthProvider = (props: any) =>{
-    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("chat-user"))|| null)
+
+export const AuthProvider = ({children}:{children:ReactNode}) =>{
+    const [authUser, setAuthUser] = useState<AuthUserType | null>(null)
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    useEffect(() => {
+      const fetchAuthUser = async () => {
+        try {
+          const res = await fetch("/api/auth/me");
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error);
+          }
+          setAuthUser(data);
+
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+      };
+
+      fetchAuthUser();
+    }, []);
+
 
     return(
-        <AuthContext.Provider value={setAuthUser}>
-            {props.children}
+        <AuthContext.Provider value={{
+            authUser,
+            isLoading,
+            setAuthUser
+        }}>
+            {children}
         </AuthContext.Provider>
     )
 }
