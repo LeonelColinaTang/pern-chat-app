@@ -1,12 +1,18 @@
+import useGetConversations from '../../hooks/useGetConversations.tsx';
+import { getRandomEmoji } from '../../utils/emojis.ts';
 import Conversation from './Conversation.tsx'
 
 const ConversationsList = () =>{
+
+    const {conversations, loading }= useGetConversations();
     return( 
     <div className="py-2 flex flex-col overflow-auto">
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
+            {conversations.map((conversation) =>(
+                <Conversation key={conversation.id} conversation={conversation} emoji={getRandomEmoji()}/>
+            ))}
+            {loading ? (
+                <span  className='loading loading-spinner mx-auto'/>  
+            ): null}
     </div>
     )
 }

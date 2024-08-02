@@ -1,12 +1,6 @@
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState, ReactNode } from "react";
 
-type AuthUserType = {
-    id: string;
-    fullName: string;
-    email: string;
-    profilePic: string;
-    gender: string;
-}
+
 
 const AuthContext = createContext<{
     authUser: AuthUserType | null;
