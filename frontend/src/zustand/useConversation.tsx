@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 
 
-
-
-
 interface ConversationState{
     selectedConversation: ConversationType | null;
     messages: MessageType[];
@@ -15,7 +12,7 @@ const useConversation = create<ConversationState>((set) =>({
     selectedConversation: null,
     setSelectedConversation: (conversation) => set({selectedConversation: conversation}),
     messages: [],
-    setMessages: (messages) =>({messages})
+    setMessages: (messages) => set({messages})
 }));
 
 export default useConversation;

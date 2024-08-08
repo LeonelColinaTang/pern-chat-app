@@ -4,7 +4,6 @@ import prisma from '../db/prisma.js';
 
 export const sendMessage = async (req: Request, res: Response) =>{
     try{
-
         //We get the message from the body, the id of the receiver from the params
         const {message} = req.body;
         const {id:receiverId} = req.params;
@@ -57,6 +56,9 @@ export const sendMessage = async (req: Request, res: Response) =>{
         }
 
         //Socket io will go here
+
+
+        
         res.status(201).json(newMessage);
 
     }catch(error: any){

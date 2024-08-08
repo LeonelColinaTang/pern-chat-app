@@ -8,6 +8,7 @@ type MessageType = {
   id: string;
   body: string;
   senderId: string;
+  createdAt: string;
 };
 
 type AuthUserType = {

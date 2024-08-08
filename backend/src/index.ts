@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 import dotenv from "dotenv";
 dotenv.config();
-
+const PORT = process.env.PORT || 5001
 const app = express();
 
 app.use(cookieParser()); //for parsing cookies
@@ -16,7 +16,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 
-app.listen(process.env.PORT, () => console.log("Server is running on port 5000"));
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
 
 
 // Todo: Add Socket.io for the server
